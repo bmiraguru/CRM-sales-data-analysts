@@ -411,7 +411,7 @@ GROUP BY 1;
 #RFM analysis for customer segmentation#
 CREATE TEMPORARY TABLE rfmsegments1 AS (
     WITH rfm_table AS (
-        -- Step 1: Calculate Recency, Frequency, and Monetary values for each account
+        
         SELECT
             account,
             MAX(engage_date) AS last_purchase_date,
@@ -423,7 +423,7 @@ CREATE TEMPORARY TABLE rfmsegments1 AS (
             account
     ),
     cte1 AS (
-        -- Step 2: Calculate Recency by finding the difference between the latest engage date and each account's last purchase date
+        
         SELECT
             *,
             DATEDIFF((SELECT MAX(engage_date) FROM sales_pipeline), last_purchase_date) AS recency
@@ -431,7 +431,7 @@ CREATE TEMPORARY TABLE rfmsegments1 AS (
             rfm_table
     ),
     cte2 AS (
-        -- Step 3: Assign quantile scores for recency, frequency, and monetary value
+       
         SELECT
             *,
             NTILE(5) OVER (ORDER BY recency ASC) AS recency_score,
@@ -440,7 +440,7 @@ CREATE TEMPORARY TABLE rfmsegments1 AS (
         FROM
             cte1
     )
-    -- Step 4: Assign customer segments based on RFM scores and select all columns
+
     SELECT
         *,
         CASE 
