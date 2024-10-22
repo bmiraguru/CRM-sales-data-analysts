@@ -1,4 +1,4 @@
-# I have used Joins, Nested CTEs, Multipe CTEs, Rank Functions and Aggregations in this analysis #
+# In this CRM data analysis, I employed joins, nested CTEs, multiple CTEs, ranking functions, and aggregations to derive insights. #
 
 with cte as (SELECT sp.product,p.series,p.sales_price FROM restorders.sales_pipeline sp join products p on p.product=sp.product)
 select series, round(avg(sales_price),0) as avgsales from cte group by 1 order by 2 desc;
