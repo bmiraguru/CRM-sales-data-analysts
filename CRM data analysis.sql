@@ -481,10 +481,10 @@ FROM
 GROUP BY 1
 ORDER BY 2 DESC;
 
-with cte2 as (with cte1 as (select year(engage_date) as engage_year, count(*) as total_deals from sales_pipeline group by 1),
-cte2 as (select year(engage_date) as engage_year, count(*) as total_won_deals from sales_pipeline where deal_stage="Won" group by 1)
-select cte1.engage_year,total_deals, total_won_deals from cte1 join cte2 on cte1.engage_year=cte2.engage_year)
-select *,(total_won_deals/total_deals)*100 as conversion_rate from cte2;
+with cte2 as (with cte as (select year(engage_date) as engage_year, count(*) as total_deals from sales_pipeline group by 1),
+cte1 as (select year(engage_date) as engage_year, count(*) as total_won_deals from sales_pipeline where deal_stage="Won" group by 1)
+select cte1.engage_year, total_won_deals,total_deals from cte join cte1 on cte1.engage_year=cte.engage_year)
+select *,round((total_won_deals/total_deals)*100,2) as conversion_rate from cte2;
 
 
 
